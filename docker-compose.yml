@@ -1,0 +1,40 @@
+version: '3.1'
+
+x-environemnt:
+    DATABASE: postgres
+    SQL_DATABASE: postgres
+    SQL_HOST: db
+    SQL_PASSWORD: postgres
+    SQL_PORT: '5432'
+    SQL_USER: postgres
+    
+networks:
+    app-network:
+
+services:
+    flask:
+        build:
+          context: ./
+          dockerfile: Dockerfile
+        ports:
+            - 5000:5000
+        networks:
+            app-network:
+                aliases:
+                    - flask-app
+        volumes:
+            - .:/intermediacy-api
+        depends_on:
+            - db
+    db:
+        image: postgres:10.5-alpine
+        restart: always
+        ports:
+        - 5431:5432
+        networks:
+            app-network:
+                aliases:
+                    - db
+        volumes:
+        - ./database/scripts:/scripts
+        - ./database/target/postgres_data:/var/lib/postgresql/data
