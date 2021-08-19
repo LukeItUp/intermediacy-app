@@ -1,7 +1,8 @@
 from app import app, db
 from app.models import Paper
+from app import controllers
 import flask
-from sqlalchemy import create_engine
+#from sqlalchemy import create_engine
 
 
 @app.route('/test_download', methods=['GET'])
@@ -24,4 +25,5 @@ def get_test():
     results = db.session.query(Paper).filter(Paper.ms_id!=None).all()
     results = [x.to_json() for x in results]
     db.session.close()
+    controllers.task.apply_async(args=[None, None, None], countdown=0)
     return flask.make_response({'message': 'ok', 'results': results}, 200)

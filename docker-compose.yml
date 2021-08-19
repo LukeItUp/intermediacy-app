@@ -38,3 +38,22 @@ services:
         volumes:
         - ./database/scripts:/scripts
         - ./database/target/postgres_data:/var/lib/postgresql/data
+    redis:
+        image: redis
+        networks:
+            app-network:
+                aliases:
+                    - redis
+    worker:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        command: celery -A app:celery worker -P threads --loglevel=info
+        volumes:
+            - .:/intermediacy-api
+        networks:
+            app-network:
+                aliases:
+                    - worker
+        depends_on:
+            - redis
