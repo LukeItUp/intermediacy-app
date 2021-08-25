@@ -14,5 +14,7 @@ CREATE TABLE paper (
      task_id    varchar(8),
      file_path  varchar(100),
      source     varchar(100),
-     target     varchar(100)
+     target     varchar(100),
+     status     varchar(10),
+     results    varchar(2000)
  );

@@ -85,15 +85,38 @@ class Paper(Base):
 
 
 class Task(Base):
+    '''
+    Task status:
+        - accepted: Task has been accepted and is ready to gather paper attributes
+        - gathering: Task is gathering additional paper attributes
+        - processing: Extended intermediacy of the network is being calculated
+        - done: Task is finished and results are ready 
+    '''
     __tablename__ = 'task'
     id = Column('id', Integer, primary_key=True)
     task_id = Column('task_id', String)
     file_path = Column('file_path', String)
     source = Column('source', String)
     target = Column('target', String)
-    
+    status = Column('status', String)
+    results = Column('results', String)
+
     def __init__(self, file_path, source, target):
         self.task_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
         self.file_path = file_path
         self.source = source
         self.target = target
+        self.status = 'accepted'
+        self.results = json.dumps(dict())
+
+    def to_json(self):
+        j = {
+            'id': self.id,
+            'task_id': self.task_id,
+            'file_path': self.file_path,
+            'source': self.source,
+            'target': self.target,
+            'status': self.status,
+            'results': json.loads(self.results)
+        }
+        return j

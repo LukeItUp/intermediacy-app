@@ -4,6 +4,7 @@ from app import controllers
 import flask
 #from sqlalchemy import create_engine
 
+# ---------- test views ----------
 
 @app.route('/test_download', methods=['GET'])
 def test_download():
@@ -50,3 +51,24 @@ def any_tasks():
         'target': task.target
     }
     return flask.make_response({'message': 'ok', 'task': out}, 200)
+
+
+# ---------- views ----------
+
+@app.route('/task', methods=['POST'])
+def add_task():
+    '''
+    Adds new task and accepts file from user.
+    '''
+
+    return flask.make_response({'message': 'ok'}, 200)
+
+
+@app.route('/task/<task_id>', methods=['GET'])
+def get_task(task_id=None):
+    if task_id is None:
+        return flask.make_response({'message': 'not found'}, 404) 
+    task = db.session.query(Task).filter(Task.task_id==task_id).first()
+    if task is None:
+        return flask.make_response({'message': 'not found'}, 404) 
+    return flask.make_response({'message': 'ok', 'task': task.to_json()}, 200)
