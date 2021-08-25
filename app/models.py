@@ -7,6 +7,8 @@ from sqlalchemy.schema import ForeignKey
 from sqlalchemy import Column, Integer, String, Text, BigInteger, LargeBinary
 import requests
 import json
+import string
+import random
 
 
 Base = declarative_base()
@@ -80,4 +82,18 @@ class Paper(Base):
             "fields": self.get_fields()
         }
         return j
+
+
+class Task(Base):
+    __tablename__ = 'task'
+    id = Column('id', Integer, primary_key=True)
+    task_id = Column('task_id', String)
+    file_path = Column('file_path', String)
+    source = Column('source', String)
+    target = Column('target', String)
     
+    def __init__(self, file_path, source, target):
+        self.task_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+        self.file_path = file_path
+        self.source = source
+        self.target = target

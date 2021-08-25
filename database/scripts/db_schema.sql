@@ -6,7 +6,13 @@ CREATE TABLE paper (
     title   varchar(1000),
     authors varchar(2000),
     year    integer,
-    fields  varchar(2000),
+    fields  varchar(2000)
+ );
 
-	CONSTRAINT pk_page_id PRIMARY KEY ( id )
+ CREATE TABLE task (
+     id         serial NOT NULL,
+     task_id    varchar(8),
+     file_path  varchar(100),
+     source     varchar(100),
+     target     varchar(100)
  );

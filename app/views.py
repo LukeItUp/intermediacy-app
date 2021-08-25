@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import Paper
+from app.models import Paper, Task
 from app import controllers
 import flask
 #from sqlalchemy import create_engine
@@ -27,3 +27,26 @@ def get_test():
     db.session.close()
     controllers.task.apply_async(args=[None, None, None], countdown=0)
     return flask.make_response({'message': 'ok', 'results': results}, 200)
+
+
+@app.route('/test_task', methods=['GET'])
+def test_task():
+    task = Task('path/to/file', 'source', 'target')
+    db.session.add(task)
+    db.session.commit()
+    db.session.close()
+    return flask.make_response({'message': 'ok'}, 200)
+
+
+@app.route('/any_tasks', methods=['GET'])
+def any_tasks():
+    task = db.session.query(Task).first()
+    db.session.close()
+    out = {
+        'id': task.id,
+        'task_id': task.task_id,
+        'file_path': task.file_path,
+        'source': task.source,
+        'target': task.target
+    }
+    return flask.make_response({'message': 'ok', 'task': out}, 200)
