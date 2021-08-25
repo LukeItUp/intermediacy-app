@@ -10,11 +10,33 @@ def induce_network(file_path, source, target):
     pass
 
 
-def gather_network_data():
+def find_doi(line):
+    flag = False
+    for word in line.split(' '):
+        if 'doi' is word.lower():
+            flag = True
+        elif flag:
+            return word.replace("'", '').replace('"', '')
+    return ''
+
+
+def gather_network_data(file_path):
     """
     Gathers additional paper data for computing the extended intermediacy measure.
     """
-    pass
+    with open(file_path, 'r') as file:
+        for line in file:
+            if 'vertices' in line:
+                continue
+            elif 'arcs' in line:
+                break
+            else:
+                doi = find_doi(line)
+                paper = Paper(doi)
+                paper.gather_data()
+                db.session.add(paper)
+        db.session.commit()
+        db.session.close()
 
 
 def compute_intermediacy(file_path, source, target):

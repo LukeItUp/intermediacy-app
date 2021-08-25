@@ -15,7 +15,7 @@ def test_download():
         paper = Paper(doi)
         paper.gather_data()
         db.session.add(paper)
-        db.session.commit()
+    db.session.commit()
     db.session.close()
     return flask.make_response({'message': 'ok'}, 200)
 

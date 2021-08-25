@@ -80,18 +80,4 @@ class Paper(Base):
             "fields": self.get_fields()
         }
         return j
-
-    """
-        
-        for data in resp_json['entities']:
-            if data['attribute'] == 'Id':
-                self.ms_id = int(data['histogram'][-1]['value'])
-            elif data['attribute'] == 'Ti':
-                self.title = str(data['histogram'][-1]['value']).capitalize()
-            elif data['attribute'] == 'F.FN':
-                self.set_fields(data)
-            elif data['attribute'] == 'AA.AuN':
-                self.set_authors(data)
-        """
-    
     
