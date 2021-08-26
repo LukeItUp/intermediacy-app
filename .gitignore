@@ -1,4 +1,5 @@
 venv
 database/target
+database/media/*
 .sub_key
 app/__pycache__

@@ -2,6 +2,11 @@ from app import app, db
 from app.models import Paper, Task
 from app import controllers
 import flask
+from werkzeug.utils import secure_filename
+import os
+import random
+import string
+
 #from sqlalchemy import create_engine
 
 # ---------- test views ----------
@@ -54,12 +59,57 @@ def any_tasks():
 
 
 # ---------- views ----------
+def generate_filename(file_name):
+    extension = file_name.split('.')[-1]
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(20)) + '.' + extension
+
 
 @app.route('/task', methods=['POST'])
 def add_task():
     '''
     Adds new task and accepts file from user.
     '''
+    current_chunk = int(flask.request.form.get('current_chunk', None))
+    chunk_count = int(flask.request.form.get('chunk_count', None))
+    chunk_offset = int(flask.request.form.get('chunk_byte_offset', None))
+    total_file_size = int(flask.request.form.get('total_file_size', None))
+
+    source = flask.request.form.get('source', None)
+    target = flask.request.form.get('target', None)
+
+    file_name = flask.request.files.get('file_name', 'tmp.net')
+    file_content = flask.request.files.get('file', None)
+
+    file_path = os.path.join(app.config['APP_MEDIA'], secure_filename(file_name))
+
+    if os.path.exists(file_path) and current_chunk == 0:
+        os.remove(file_path)
+
+    append_write = 'ab' if os.path.exists(file_name) else 'wb'
+    with open(file_path, append_write) as f:
+        f.seek(chunk_offset)
+        f.write(file_content.stream.read())
+
+    if current_chunk != chunk_count:
+        return flask.make_response(jsonify({'message': 'ok',
+                                            'file_name': file_name,
+                                            'current_chunk': current_chunk,
+                                            'total_chunks': total_chunks}), 200)
+    else:  # finish upload
+        if os.path.getsize(file_path) != total_file_size: # something is wrong with uploaded file
+            os.remove(file_path)
+            return flask.make_response({'message': 'size mismatch'}, 500)
+        else:
+            new_random_name = generate_filename(file_name)
+            new_path = os.path.join(app.config['APP_MEDIA'], secure_filename(new_random_name))
+            os.rename(file_path, new_path)
+            # add new task 
+            task = Task(new_path, source, target)
+            db.session.add(task)
+            db.session.commit()
+            db.session.close()
+            # TODO: start task
 
     return flask.make_response({'message': 'ok'}, 200)
 
@@ -70,5 +120,5 @@ def get_task(task_id=None):
         return flask.make_response({'message': 'not found'}, 404) 
     task = db.session.query(Task).filter(Task.task_id==task_id).first()
     if task is None:
-        return flask.make_response({'message': 'not found'}, 404) 
+        return flask.make_response({'message': 'not found'}, 404)
     return flask.make_response({'message': 'ok', 'task': task.to_json()}, 200)
