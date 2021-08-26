@@ -1,5 +1,5 @@
 from app import app, celery, db
-from app.models import Paper
+from app.models import Paper, Task
 
 
 def induce_network(file_path, source, target):
@@ -47,11 +47,31 @@ def compute_intermediacy(file_path, source, target):
 
 
 @celery.task
-def task(file_path, source, target):
+def start_task(task_id):
     """
     Asynchronus task that combines all functions above.
     """
-    print("this is async")
-    import sys
-    sys.stdout.flush()
-    pass
+
+    import time
+    time.sleep(5)  #TODO: remove
+    task = db.session.query(Task).filter(Task.id==task_id).first()
+    task.status = 'gathering'
+    print(task)
+    db.session.commit()
+    induce_network(task.file_path, task.source, task.target)
+    gather_network_data(task.file_path)
+
+    time.sleep(5)   #TODO: remove
+    task = db.session.query(Task).filter(Task.id==task_id).first()
+    task.status = 'processing'
+    print(task)
+    db.session.commit()
+    compute_intermediacy(task.file_path, task.source, task.target)
+    
+    time.sleep(5)  #TODO: remove
+    task = db.session.query(Task).filter(Task.id==task_id).first()
+    task.status = 'done'
+    print(task)
+    db.session.commit()
+    db.session.close()
+    return

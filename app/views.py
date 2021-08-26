@@ -31,7 +31,7 @@ def get_test():
     results = db.session.query(Paper).filter(Paper.ms_id!=None).all()
     results = [x.to_json() for x in results]
     db.session.close()
-    controllers.task.apply_async(args=[None, None, None], countdown=0)
+    controllers.start_task.apply_async(args=[None], countdown=0)
     return flask.make_response({'message': 'ok', 'results': results}, 200)
 
 
@@ -108,9 +108,10 @@ def add_task():
             task = Task(new_path, source, target)
             db.session.add(task)
             db.session.commit()
+            # start task
+            controllers.start_task.apply_async(args=[task.id], countdown=5)
             db.session.close()
-            # TODO: start task
-
+            
     return flask.make_response({'message': 'ok'}, 200)
 
 

@@ -8,6 +8,6 @@ echo "—> Removing db target data"
 rm -r ./database/target
 
 echo "—> Creating new db container"
-docker-compose -f docker-compose.yml up -d
+docker-compose -f docker-compose.yml up -d --build
 sleep 5
 docker-compose -f docker-compose.yml exec db psql -U postgres -f /scripts/db_schema.sql

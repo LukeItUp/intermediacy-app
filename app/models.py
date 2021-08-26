@@ -109,6 +109,12 @@ class Task(Base):
         self.status = 'accepted'
         self.results = json.dumps(dict())
 
+    def __str__(self):
+        return f'<Task task_id={self.task_id} file={self.file_path} status={self.status}>'
+    
+    def __repr__(self):
+        return self.__str__()
+
     def to_json(self):
         j = {
             'id': self.id,
