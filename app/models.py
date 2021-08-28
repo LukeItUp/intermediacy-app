@@ -104,7 +104,7 @@ class Task(Base):
         self.source = source
         self.target = target
         self.status = 'accepted'
-        self.results = json.dumps(dict())
+        self.results = None
 
     def __str__(self):
         return f'<Task task_id={self.task_id} file={self.file_path} status={self.status}>'
@@ -113,6 +113,11 @@ class Task(Base):
         return self.__str__()
 
     def to_json(self):
+        results = None
+        if self.results is not None:
+            f = open(self.results, 'r')
+            results = json.load(f)
+            f.close()
         j = {
             'id': self.id,
             'task_id': self.task_id,
@@ -120,6 +125,6 @@ class Task(Base):
             'source': self.source,
             'target': self.target,
             'status': self.status,
-            'results': json.loads(self.results)
+            'results': results
         }
         return j

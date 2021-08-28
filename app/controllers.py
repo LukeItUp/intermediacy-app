@@ -1,5 +1,7 @@
 from app import app, celery, db
 from app.models import Paper, Task
+import subprocess
+import json
 
 
 def find_doi(line):
@@ -42,9 +44,14 @@ def compute_intermediacy(file_path, source, target):
     Computes extended intermediacy and saves the results to db.
     """
     file_name = '.'.join(file_path.split('.')[:-1])
-    command = f'java -jar {file_name}-extended.net "{source}" "{target}" > {file_name}-results.json'
-    # TODO: run java code
-    pass
+    jar_path = app.config['APP_DIR'] + '/intermediacy.jar'
+    command = f'java -jar {jar_path} {file_name}-extended.net "{source}" "{target}" > {file_name}-results.json'
+
+    # run java code
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+    process.wait()
+    
+    return f'{file_name}-results.json'
 
 
 @celery.task
@@ -62,10 +69,11 @@ def start_task(task_id):
     task.status = 'processing'
     print(task)
     db.session.commit()
-    compute_intermediacy(task.file_path, task.source, task.target)
+    results_file = compute_intermediacy(task.file_path, task.source, task.target)
     
     task = db.session.query(Task).filter(Task.id==task_id).first()
     task.status = 'done'
+    task.results = results_file
     print(task)
     db.session.commit()
     db.session.close()

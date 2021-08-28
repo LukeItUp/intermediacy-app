@@ -1,7 +1,7 @@
 FROM python:3.6
 
 RUN apt-get update && \
-      apt-get -y install python3-dev
+      apt-get -y install python3-dev openjdk-11-jre
 
 RUN mkdir /intermediacy-api
 
