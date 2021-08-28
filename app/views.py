@@ -109,10 +109,11 @@ def add_task():
             db.session.add(task)
             db.session.commit()
             # start task
+            out = task.to_json()
             controllers.start_task.apply_async(args=[task.id], countdown=5)
             db.session.close()
             
-    return flask.make_response({'message': 'ok'}, 200)
+    return flask.make_response({'message': 'ok', 'task': out}, 200)
 
 
 @app.route('/task/<task_id>', methods=['GET'])

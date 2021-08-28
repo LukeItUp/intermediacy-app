@@ -6,6 +6,8 @@ docker rm intermediacy-app_db_1
 
 echo "—> Removing db target data"
 rm -r ./database/target
+rm -r ./database/media
+mkdir ./database/media
 
 echo "—> Creating new db container"
 docker-compose -f docker-compose.yml up -d --build

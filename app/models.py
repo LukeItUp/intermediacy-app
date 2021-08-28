@@ -3,7 +3,6 @@ from app import app, db
 from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.schema import ForeignKey
-#from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String, Text, BigInteger, LargeBinary
 import requests
 import json
@@ -63,9 +62,7 @@ class Paper(Base):
         if 'entities' not in data or len(data['entities']) == 0:
             self.ms_id = -1
             return
-        
-        print(data)
-        
+                
         self.ms_id = int(data['entities'][0]['Id'])
         self.title = str(data['entities'][0]['Ti']).capitalize()
         self.year = str(data['entities'][0]['Y'])
