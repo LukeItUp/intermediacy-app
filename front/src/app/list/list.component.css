@@ -1,0 +1,10 @@
+.taskLink p {
+    position: relative;
+    color: white;
+    padding-left: 10pt;
+    border: solid 1p white;
+}
+
+.taskLink p:hover {
+    font-weight: bold;
+}

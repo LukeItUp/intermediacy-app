@@ -13,3 +13,7 @@ echo "—> Creating new db container"
 docker-compose -f docker-compose.yml up -d --build
 sleep 5
 docker-compose -f docker-compose.yml exec db psql -U postgres -f /scripts/db_schema.sql
+
+echo "—> Starting front"
+cd front
+npm start

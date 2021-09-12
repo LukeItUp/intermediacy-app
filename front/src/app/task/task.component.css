@@ -1,0 +1,21 @@
+h1 {
+  text-align: center;
+}
+
+th {
+  font-size: 15pt;
+  font-weight: bold;
+  padding-top: 20pt;
+}
+
+td {
+  font-size: 15pt;
+  padding: 10pt;
+  text-align: center;
+  border: black solid 1pt;
+  margin: 0px;
+}
+
+.noBorder_td {
+  border: transparent;
+}

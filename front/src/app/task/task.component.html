@@ -1,0 +1,86 @@
+<br>
+<br>
+
+<!--
+<h3>Task: {{ task_id }}</h3>
+-->
+
+<div *ngIf="task_ready; then taskReadyBlock; else taskNotReadyBlock" >
+</div>
+<!-- Templates -->
+
+<ng-template #taskReadyBlock>
+    <table>
+        <thead>
+            <th></th>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Intermediacy</th>
+            <th>Error</th>
+        </thead>
+        <tbody>
+            <!-- Source -->
+            <tr class="source-target_tr">
+                <td>
+                    <p>Source:</p>
+                </td>
+                <td>
+                    <p>
+                        <a href="{{source.url}}" target="_blank">{{ source.title }}</a>
+                    </p>
+                </td>
+                <td>{{ source.year }}</td>
+                <td>{{ source.intermediacy | number: '1.1-5' }}</td>
+                <td>±{{ source.error | number: '1.1-5' }}</td>        
+            </tr>
+            <!-- Target -->
+            <tr class="source-target_tr">
+                <td>Target:</td>
+                <td>
+                    <p>
+                        <a href="{{source.url}}" target="_blank">{{ target.title }}</a>
+                    </p>
+                </td>
+                <td>{{ target.year }}</td>
+                <td>{{ target.intermediacy | number: '1.1-5' }}</td>
+                <td>±{{ target.error | number: '1.1-5' }}</td>        
+            </tr>
+            <!-- Results -->
+            <tr *ngFor="let res of results; index as i">
+                
+                <ng-container *ngIf="i<3; then firstBlock; else resultBlock">
+                </ng-container>
+
+                <!-- Result templates -->
+                <ng-template #firstBlock>
+                    <td class="first{{i}}">
+                        {{i+1}}.
+                    </td>
+                    <td class="first{{i}}">
+                        <a href="{{res.url}}" target="_blank">{{ res.title }}</a>
+                    </td>
+                    <td class="first{{i}}">{{ res.year }}</td>
+                    <td class="first{{i}}">{{ res.intermediacy | number: '1.1-5' }}</td>
+                    <td class="first{{i}}">±{{ res.error | number: '1.1-5' }}</td>        
+                </ng-template>
+
+                <ng-template #resultBlock>
+                    <td class="noBorder_td">
+                    </td>
+                    <td class="result_td">
+                        <a href="{{res.url}}" target="_blank">{{ res.title }}</a>
+                    </td>
+                    <td class="result_td">{{ res.year }}</td>
+                    <td class="result_td">{{ res.intermediacy | number: '1.1-5' }}</td>
+                    <td class="result_td">±{{ res.error | number: '1.1-5' }}</td>        
+                </ng-template>
+                <!-- End of result templates -->
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
+
+
+<ng-template #taskNotReadyBlock>
+    <h3>Task is not yet ready.</h3>
+</ng-template>
