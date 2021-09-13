@@ -29,10 +29,34 @@ export class TaskComponent implements OnInit {
       if (this.results.length == 0) {
         this.fetchData(routeParams.task_id);
       }
+
+      this.addTaskToCookie(routeParams.task_id);
+      
+
     });
    }
 
   ngOnInit(): void {
+  }
+
+  public getCookieTaskList(): string[] {
+    let ca: Array<string> = decodeURIComponent(document.cookie).split(';');
+    let cookieName = `task_list=`
+    for (let i=0; i < ca.length; i+=1) {
+      let c = ca[i].replace(/^\s+/g, '');
+      if (c.indexOf(cookieName) === 0) {
+          return c.substring(cookieName.length, c.length).split('&');
+      }
+    }
+    return [];
+  }
+
+  public addTaskToCookie(task:string) {
+    var task_list: string[] = this.getCookieTaskList();
+    if (!task_list.includes(task)) {
+      task_list.push(task);
+    }
+    document.cookie=`task_list=${task_list.join("&")};SameSite=Lax`;
   }
 
   fetchData(task_id: string) {
