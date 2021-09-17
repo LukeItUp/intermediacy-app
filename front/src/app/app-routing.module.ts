@@ -5,7 +5,8 @@ import { TaskComponent } from './task/task.component';
 
 const routes: Routes = [
   {path: 'upload', component: UploadComponent},
-  {path: 'task/:task_id', component: TaskComponent}
+  {path: 'task/:task_id', component: TaskComponent},
+  {path: '**', component: UploadComponent},
 ];
 
 @NgModule({
