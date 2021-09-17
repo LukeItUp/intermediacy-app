@@ -12,7 +12,9 @@ export class ListComponent implements OnInit {
 
   constructor(
     private router: Router
-  ) { }
+  ) {
+    this.tasks = this.getCookieTaskList();
+   }
 
   ngOnInit(): void {
     console.log("cookies", document.cookie);

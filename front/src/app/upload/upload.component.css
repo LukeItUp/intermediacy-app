@@ -1,0 +1,89 @@
+.example_header {
+    background-color: gray;
+    color: white;
+    width: 50%;
+}
+.example {
+    width: 50%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+input {
+    margin: 10pt;
+}
+
+label {
+    padding-right: 10px;
+}  
+
+
+body{
+  font-family: 'Open Sans', sans-serif;
+  height:100%;
+  text-align:center;
+  position:relative;
+}
+
+.button-wrapper {
+  position: relative;
+  width: 50%;
+}
+
+.button-wrapper span.label {
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    width: 45%;
+    background: #599bb3;
+    cursor: pointer;
+    color: #fff;
+    padding: 10px 0;
+    text-transform:uppercase;
+    font-size:12px;
+    text-align: center;
+    margin-top: 10pt;
+    margin-left: 12pt;
+}
+
+#upload {
+    display: inline-block;
+    position: absolute;
+    z-index: 1;
+    width: 500%;
+    height: 50px;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+button {
+    text-align: center;
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    width: 50%;
+    background: #599bb3;
+    cursor: pointer;
+    color: #fff;
+    padding: 10px 0;
+    text-transform:uppercase;
+    font-size:15px;
+}
+
+tr {
+    width: 50%;
+    padding: 1000pt;
+}
+
+td {
+    display: inline;
+    position: relative;
+    width: 50%;
+
+}
+
+td input {
+    width: 100%;
+}

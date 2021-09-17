@@ -56,7 +56,7 @@ export class TaskComponent implements OnInit {
     if (!task_list.includes(task)) {
       task_list.push(task);
     }
-    document.cookie=`task_list=${task_list.join("&")};SameSite=Lax`;
+    document.cookie=`task_list=${task_list.join("&")};SameSite=None`;
   }
 
   fetchData(task_id: string) {

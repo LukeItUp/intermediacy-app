@@ -23,9 +23,9 @@ export class UploadComponent implements OnInit {
 
   onSubmit(event:any) {
     let task_name:string = event.target[0].value;
-    let file:File = event.target[1].files[0];
-    let source:string = event.target[2].value;
-    let target:string = event.target[3].value;
+    let source:string = event.target[1].value;
+    let target:string = event.target[2].value;
+    let file:File = event.target[3].files[0];
     let formData:FormData = new FormData();
     formData.append('file', file, file.name);
     formData.append('task_name', task_name);

@@ -1,30 +1,88 @@
+<br>
+<br>
 
 <div>
-    <p>Upload your file here.</p>
+    <h2>Upload your file here!</h2>
+    <p>
+        This application accepts only networks in pajek format.
+        <br>
+        Please make sure that the file contains papers DOI. You can see the example of the file structure below.
+    </p>
 </div>
+
+<br>
+
+<div class="example_header">
+    example.net
+</div>
+<div class="example">
+<p>*vertices 5</p>
+<p>1 "s" DOI "10.1016/J.JOI.2012.08.005"</p>
+<p>2 "u" DOI "10.1016/J.JOI.2013.01.013"</p>
+<p>3 "v" DOI "10.1007/S11192-014-1269-8"</p>
+<p>4 "w" DOI "10.1016/J.JOI.2012.03.005"</p>
+<p>5 "t" DOI "10.1145/2213977.2214088"</p>
+<p>*arcs</p>
+<p>1 2</p>
+<p>1 3</p>
+<p>2 3</p>
+<p>2 4</p>
+<p>3 5</p>
+<p>4 3</p>
+<p>4 5</p>
+</div>
+
+<br>
+<p>
+    Make sure you use the correct source and target DOIs, since you can't change them later.
+</p>
+<br>
+
 <div>
     <form #fileForm="ngForm" (ngSubmit)="onSubmit($event)">
-        <div>
-            <label>Task name:</label>
-            <input type="text" ngModel name="task_name" required title="Short name for your task">
-        </div>
-    
-        <div>
-            <label>File</label>
-            <input type="file" ngModel name="file" required accept=".net">
+
+        <table>
+            <thead>
+                <tr><th></th><th></th></tr>
+                
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <label>Task name:</label>
+                    </td>
+                    <td>
+                        <input type="text" ngModel name="task_name" required title="Short name for your task">        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Source DOI:</label>
+                    </td>
+                    <td>
+                        <input type="text" ngModel name="source" required title="Write source DOI using upper caps">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Target DOI:</label>
+                    </td>
+                    <td>
+                        <input type="text" ngModel name="target" required title="Write target DOI using upper caps">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <div class="button-wrapper">
+            <span class="label">File</span>
+            <input class="upload-box" id="upload" type="file" ngModel name="file" required accept=".net">
         </div>
 
-        <div>
-            <label>Source DOI:</label>
-            <input type="text" ngModel name="source" required title="Write source DOI using upper caps">
-        </div>
+        <br>
 
-        <div>
-            <label>Target DOI:</label>
-            <input type="text" ngModel name="target" required title="Write target DOI using upper caps">
-        </div>
-
-        <button>Submit</button>
+        <button><b>Submit new task</b></button>
     </form>    
 </div>
 
