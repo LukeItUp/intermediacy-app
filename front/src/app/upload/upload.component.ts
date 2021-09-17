@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class UploadComponent implements OnInit {
 
   public receivedFile: any;
-  private url = 'http://0.0.0.0:5000/upload_test2';
+  private url = 'http://0.0.0.0:5000/task';
 
   constructor(
     private http: HttpClient,

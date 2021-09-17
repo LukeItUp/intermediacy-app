@@ -32,9 +32,6 @@ export class TaskComponent implements OnInit {
         this.fetchData(routeParams.task_id);
       }
 
-      this.addTaskToCookie(routeParams.task_id);
-      
-
     });
    }
 
@@ -52,6 +49,7 @@ export class TaskComponent implements OnInit {
     }
     return [];
   }
+
 
   public addTaskToCookie(task:string) {
     var task_list: string[] = this.getCookieTaskList();
@@ -94,6 +92,11 @@ export class TaskComponent implements OnInit {
       
       //
       this.task_ready = true;
+      
+
+      this.addTaskToCookie(`${this.task_id}\$${this.task_name}`);
+      
+
     }
   }
 }
