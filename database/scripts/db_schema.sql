@@ -12,6 +12,7 @@ CREATE TABLE paper (
  CREATE TABLE task (
      id         serial NOT NULL,
      task_id    varchar(8),
+     task_name  varchar(100),
      file_path  varchar(100),
      source     varchar(100),
      target     varchar(100),

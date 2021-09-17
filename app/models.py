@@ -92,14 +92,16 @@ class Task(Base):
     __tablename__ = 'task'
     id = Column('id', Integer, primary_key=True)
     task_id = Column('task_id', String)
+    task_name = Column('task_name', String)
     file_path = Column('file_path', String)
     source = Column('source', String)
     target = Column('target', String)
     status = Column('status', String)
     results = Column('results', String)
 
-    def __init__(self, file_path, source, target):
+    def __init__(self, task_name, file_path, source, target):
         self.task_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+        self.task_name = task_name
         self.file_path = file_path
         self.source = source
         self.target = target
@@ -121,6 +123,7 @@ class Task(Base):
         j = {
             'id': self.id,
             'task_id': self.task_id,
+            'task_name': self.task_name,
             'file_path': self.file_path,
             'source': self.source,
             'target': self.target,

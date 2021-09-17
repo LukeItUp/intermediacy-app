@@ -1,1 +1,30 @@
-<p>upload works! (NOT REALLY)</p>
+
+<div>
+    <p>Upload your file here.</p>
+</div>
+<div>
+    <form #fileForm="ngForm" (ngSubmit)="onSubmit($event)">
+        <div>
+            <label>Task name:</label>
+            <input type="text" ngModel name="task_name" required title="Short name for your task">
+        </div>
+    
+        <div>
+            <label>File</label>
+            <input type="file" ngModel name="file" required accept=".net">
+        </div>
+
+        <div>
+            <label>Source DOI:</label>
+            <input type="text" ngModel name="source" required title="Write source DOI using upper caps">
+        </div>
+
+        <div>
+            <label>Target DOI:</label>
+            <input type="text" ngModel name="target" required title="Write target DOI using upper caps">
+        </div>
+
+        <button>Submit</button>
+    </form>    
+</div>
+

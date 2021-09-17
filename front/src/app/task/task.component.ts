@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class TaskComponent implements OnInit {
 
   public task_id = '-1';
+  public task_name = 'My task'
   public task_ready = false;
   public source:any;
   public target:any;
@@ -21,6 +22,7 @@ export class TaskComponent implements OnInit {
   ) {
     this.route.params.subscribe(routeParams => {
       this.task_id = '-1';
+      this.task_name = 'My task'
       this.task_ready = false;
       this.source;
       this.target;
@@ -78,6 +80,7 @@ export class TaskComponent implements OnInit {
 
   parseTask(task: any){
     this.task_id = task.task_id;
+    this.task_name = task.task_name;
     if (task.status === 'done') {
       
       // source
